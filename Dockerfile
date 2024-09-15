@@ -16,11 +16,11 @@ RUN apt-get install -y php libapache2-mod-php php-mysql php-xml php-mbstring \
     php-ldap php-imagick php-cli php-opcache php-imap
 
 # Configurar Apache para permitir 'AllowOverride All' e ajustes de permissão de diretório
-RUN echo "<Directory /var/www/html>\
-    Options Indexes FollowSymLinks\
-    AllowOverride All\
-    Require all granted\
-    </Directory>" > /etc/apache2/sites-available/000-default.conf
+# RUN echo "<Directory /var/www/html>\
+#     Options Indexes FollowSymLinks\
+#     AllowOverride All\
+#     Require all granted\
+#     </Directory>" > /etc/apache2/sites-available/000-default.conf
 
 # Habilitar módulos do Apache necessários para funcionamento do GLPI
 RUN a2enmod rewrite
