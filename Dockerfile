@@ -4,6 +4,9 @@ FROM public.ecr.aws/ubuntu/ubuntu:24.10
 # Atualizar pacotes
 RUN apt-get update
 
+# Instalar pre-requisitos gerais
+RUN apt-get install -y wget unzip
+
 # Instalar Apache e módulos do sistema
 RUN apt-get install -y apache2 apache2-utils
 
