@@ -1,26 +1,28 @@
-# Usando a imagem oficial do PHP-FPM no Amazon ECR Public
-FROM public.ecr.aws/docker/library/php:fpm-alpine
+# Usar a imagem base do Ubuntu 24.10 no ECR público
+FROM public.ecr.aws/ubuntu/ubuntu:24.10
 
-# Instalar Nginx e outros pacotes necessários
-RUN apk add --no-cache nginx wget tar supervisor
+# Atualizar pacotes
+RUN apt-get update
 
-# Diretório de trabalho dentro do contêiner
-WORKDIR /var/www/html
+# Instalar Apache e módulos do sistema
+RUN apt-get install -y apache2 apache2-utils
 
-# Baixar e descompactar a aplicação GLPI diretamente no contêiner
-RUN wget https://github.com/glpi-project/glpi/releases/download/10.0.16/glpi-10.0.16.tgz \
-    && tar -xzf glpi-10.0.16.tgz --strip-components=1 \
-    && rm glpi-10.0.16.tgz
+# Instalar PHP e módulos necessários para o GLPI
+RUN apt-get install -y php libapache2-mod-php php-mysql php-xml php-mbstring \
+    php-curl php-gd php-zip php-apcu php-json php-bcmath php-intl php-soap \
+    php-ldap php-imagick php-cli php-opcache php-imap
 
-# Copiar o arquivo de configuração do Nginx e PHP-FPM
-COPY ./nginx.conf /etc/nginx/nginx.conf
-#COPY ./php-fpm.conf /usr/local/etc/php-fpm.d/www.conf
+# Configurar Apache para permitir 'AllowOverride All' e ajustes de permissão de diretório
+RUN echo "<Directory /var/www/html>\
+    Options Indexes FollowSymLinks\
+    AllowOverride All\
+    Require all granted\
+    </Directory>" > /etc/apache2/sites-available/000-default.conf
 
-# Configurar o Supervisor para gerenciar Nginx e PHP-FPM
-COPY ./supervisord.conf /etc/supervisord.conf
+# Habilitar módulos do Apache necessários para funcionamento do GLPI
+RUN a2enmod rewrite
 
-# Expor as portas do Nginx e PHP-FPM
-EXPOSE 80
+# Limpar cache de pacotes para economizar espaço
+RUN apt-get clean
 
-# Inicializar o Supervisor, que gerencia o Nginx e o PHP-FPM
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
+# Esta imagem não será executada diretamente, então não precisa de CMD ou EXPOSE.
