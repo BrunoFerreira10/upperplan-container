@@ -1,5 +1,6 @@
-# Usar a imagem base do Ubuntu 24.10 no ECR público
-FROM public.ecr.aws/ubuntu/ubuntu:24.10
+# Usar a imagem base do Ubuntu 24.10 no ECR público- Recebida com argumento
+ARG BASE_REPOSITORY_URI
+FROM $BASE_REPOSITORY_URI
 
 # Ajuda com instalações silenciosas
 ENV DEBIAN_FRONTEND=noninteractive
