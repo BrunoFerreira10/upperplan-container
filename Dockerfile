@@ -28,4 +28,12 @@ RUN rm -rf awscliv2.zip aws
 # Limpar cache de pacotes para economizar espaço
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
+# Instalar cloudwatch agent
+RUN wget -nv  https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb
+RUN dpkg -i -E ./amazon-cloudwatch-agent.deb
+RUN rm -f ./amazon-cloudwatch-agent.deb
+
+# Verificar depois a limpeza de credenciais
+# https://docs.docker.com/engine/reference/commandline/login/#credentials-store
+
 # Esta imagem não será executada diretamente, então não precisa de CMD ou EXPOSE.
