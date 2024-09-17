@@ -2,7 +2,7 @@
 FROM public.ecr.aws/ubuntu/ubuntu:24.10
 
 # Atualizar pacotes
-RUN apt-get update && apt-get upgrade -y
+RUN apt-get update -y
 
 # Instalar pre-requisitos gerais
 RUN apt-get install -y wget unzip curl
@@ -25,13 +25,13 @@ RUN unzip awscliv2.zip
 RUN ./aws/install
 RUN rm -rf awscliv2.zip aws
 
-# Limpar cache de pacotes para economizar espaço
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
 # Instalar cloudwatch agent
 RUN wget -nv  https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb
 RUN dpkg -i -E ./amazon-cloudwatch-agent.deb
 RUN rm -f ./amazon-cloudwatch-agent.deb
+
+# Limpar cache de pacotes para economizar espaço
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Verificar depois a limpeza de credenciais
 # https://docs.docker.com/engine/reference/commandline/login/#credentials-store
