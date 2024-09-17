@@ -18,9 +18,10 @@ RUN apt-get -qq install apache2 apache2-utils > /dev/null
 RUN a2enmod rewrite
 
 # Instalar PHP e módulos obrigatorios para o GLPI
-RUN apt-get -qq install php php-curl php-gd php-intl php-mysql > /dev/null
+RUN apt-get -qq install php php-curl php-gd php-intl php-mysql php-xml > /dev/null
 # Instalar módulos php opcionais para o GLPI
-RUN apt-get -qq install php-bz2 php-phar php-zip php-exif php-ldap php-opcache > /dev/null
+RUN apt-get -qq install php-bz2 php-phar php-zip php-exif php-ldap php-opcache \
+  php-mbstring > /dev/null
 
 # Versão original
 # RUN apt-get -qq install php libapache2-mod-php php-mysql php-xml php-mbstring \
