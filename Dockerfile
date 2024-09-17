@@ -39,11 +39,6 @@ RUN rm -f ./amazon-cloudwatch-agent.deb
 RUN apt-get -qq clean > /dev/null
 RUN rm -rf /var/lib/apt/lists/*
 
-# Criar diretorios que serão usados pelo EFS
-RUN mkdir -p /etc/glpi
-RUN mkdir -p /var/lib/glpi
-RUN mkdir -p /var/log/glpi
-
 # Verificar depois a limpeza de credenciais
 # https://docs.docker.com/engine/reference/commandline/login/#credentials-store
 
