@@ -24,12 +24,6 @@ RUN apt-get -qq install php php-curl php-gd php-intl php-mysql php-xml > /dev/nu
 RUN apt-get -qq install php-bz2 php-phar php-zip php-exif php-ldap php-opcache \
   php-mbstring > /dev/null
 
-# Versão original
-# RUN apt-get -qq install php libapache2-mod-php php-mysql php-xml php-mbstring \
-#   php-curl php-gd php-zip php-apcu php-json php-bcmath php-intl php-soap \
-#   php-ldap php-imagick php-cli php-opcache php-imap php-bz2 php-exif \
-#   php-tokenizer php-sockets php-xmlrpc php-ftp > /dev/null  
-
 # Instalar cloudwatch agent
 RUN wget -nv  https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb
 RUN dpkg -i -E ./amazon-cloudwatch-agent.deb > /dev/null
