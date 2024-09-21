@@ -16,6 +16,7 @@ RUN apt-get -qq install wget unzip > /dev/null
 
 # Instalar Apache e módulos do sistema
 RUN apt-get -qq install apache2 apache2-utils libapache2-mod-fcgid > /dev/null
+RUN a2enmod rewrite
 
 # Instalar PHP-FPM e os módulos necessários para GLPI
 RUN apt-get -qq install php php-fpm php-curl php-gd php-intl php-mysql php-xml \
@@ -23,7 +24,6 @@ RUN apt-get -qq install php php-fpm php-curl php-gd php-intl php-mysql php-xml \
 
 # Configurar Apache para utilizar PHP-FPM
 RUN a2enmod proxy_fcgi setenvif && a2enconf php8.3-fpm
-
 
 # Limpar cache de pacotes para economizar espaço
 RUN apt-get -qq clean > /dev/null && rm -rf /var/lib/apt/lists/*
