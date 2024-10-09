@@ -25,6 +25,11 @@ RUN apt-get -qq install php php-fpm php-curl php-gd php-intl php-mysql php-xml \
 # Configurar Apache para utilizar PHP-FPM
 RUN a2enmod proxy_fcgi setenvif && a2enconf php8.3-fpm
 
+# Instalar cloudwatch agent
+RUN wget -nv  https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb
+RUN dpkg -i -E ./amazon-cloudwatch-agent.deb > /dev/null
+RUN rm -f ./amazon-cloudwatch-agent.deb
+
 # Limpar cache de pacotes para economizar espaço
 RUN apt-get -qq clean > /dev/null && rm -rf /var/lib/apt/lists/*
 
